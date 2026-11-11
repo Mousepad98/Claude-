@@ -328,7 +328,9 @@ footer p { margin: 0; }
         setConn("warn", "Nicht verbunden");
         if (b.pairing) pair.status = { connection: b.connection, pairing: b.pairing };
         openPairing(b.connection === "logged_out" ? "WhatsApp wurde abgemeldet. Verbinde dich neu, um weiterzumachen." : null);
-        if (b.pairing && !pair.timer) afterStatus();
+        // Verbindung im Hintergrund beobachten, z. B. wenn im Terminal mit „npm run pair“ gekoppelt wird
+        clearTimeout(pair.timer);
+        pair.timer = setTimeout(pollStatus, 3000);
         if (!data.chats.length) {
           demo = true; chats = demoChats();
           $("#updated").textContent = "";
@@ -454,9 +456,10 @@ footer p { margin: 0; }
       setTimeout(load, 2500);
       return;
     }
-    renderPairing();
     const p = st?.pairing;
-    const waiting = pair.limited || (st && (st.connection === "pairing" || st.connection === "connecting") && !p?.expired && !p?.error);
+    if (p && !p.expired && !p.error && (p.qr || p.code)) pair.error = null;
+    renderPairing();
+    const waiting = pair.limited || !st || st.connection === "pairing" || st.connection === "connecting" || (UNPAIRED.has(st.connection) && !pair.busy);
     if (pair.visible && waiting) pair.timer = setTimeout(pollStatus, 3000);   // QR-Code erneuert sich etwa alle 20 s
   }
 

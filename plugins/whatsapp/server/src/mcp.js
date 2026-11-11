@@ -25,7 +25,7 @@ export async function ensureBridge({ waitMs = 6000 } = {}) {
   if (st) return st;
   ensureDir();
   const out = fs.openSync(LOG_FILE, "a");
-  const child = spawn(process.execPath, [path.join(HERE, "bridge.js")], { detached: true, stdio: ["ignore", out, out], env: process.env });
+  const child = spawn(process.execPath, [path.join(HERE, "bridge.js")], { detached: true, windowsHide: true, stdio: ["ignore", out, out], env: process.env });
   child.unref();
   const until = Date.now() + waitMs;
   while (Date.now() < until) {

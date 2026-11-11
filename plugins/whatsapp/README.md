@@ -26,7 +26,7 @@ Der Sekretär erkennt die Verbindung danach von selbst.
 
 ### Schaltflächen im Sekretär freischalten (einmalig)
 
-Für „QR-Code anzeigen“, „Kopplungscode anfordern“ und „Trennen“ braucht das Artefakt die Tools `get_status`, `start_pairing` und `logout`. Diese lokalen Tools kann nur eine **lokale** Sitzung freigeben, zum Beispiel Claude Code auf deinem Rechner oder die Claude-Desktop-App. Eine Cloud-Sitzung kann das nicht. Bitte dort einmal:
+Für „QR-Code anzeigen“, „Kopplungscode anfordern“ und „Trennen“ braucht das Artefakt die Tools `get_status`, `start_pairing` und `logout`. Neue lokale Tools darf nur eine **lokale Claude-Code-Sitzung** freigeben, also `claude` im Terminal oder Claude Code in der Desktop-App. Sie muss auf dem Rechner laufen, auf dem der Konnektor `whatsapp` eingerichtet ist. Ein normaler Chat oder eine Cloud-Sitzung kann das nicht. Bitte dort einmal:
 
 > Veröffentliche `artifacts/persoenlicher-sekretaer.html` neu auf https://claude.ai/artifact/BrpjtLk5uSEQF5W5HgZC3V, mit `capabilities.mcp.servers = [{server: "host:whatsapp", tools: ["get_inbox","create_draft","update_draft","discard_draft","send_draft","get_status","start_pairing","logout"]}]` und `sample: {}`.
 
