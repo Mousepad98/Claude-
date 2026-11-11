@@ -1,0 +1,4 @@
+node_modules/
+.whatsapp-secretary/
+auth/
+*.log

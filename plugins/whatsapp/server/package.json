@@ -1,0 +1,22 @@
+{
+  "name": "whatsapp-secretary",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lokaler WhatsApp-Konnektor (MCP-Server + Bridge) für den persönlichen Sekretär in der Claude-Desktop-App",
+  "type": "module",
+  "main": "src/mcp.js",
+  "bin": { "whatsapp-secretary-mcp": "src/mcp.js" },
+  "scripts": {
+    "mcp": "node src/mcp.js",
+    "bridge": "node src/bridge.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "baileys": "7.0.0-rc14",
+    "pino": "^9.0.0",
+    "qrcode": "^1.5.4",
+    "zod": "^3.25.0"
+  }
+}
