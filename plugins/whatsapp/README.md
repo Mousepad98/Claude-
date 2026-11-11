@@ -14,6 +14,24 @@ Die Bridge koppelt sich **nie von selbst**. Gekoppelt wird erst, wenn du im Sekr
 1. **QR-Code**: Öffne am Handy WhatsApp → Einstellungen → *Verknüpfte Geräte* → *Gerät hinzufügen* und scanne den QR-Code, den der Sekretär anzeigt. Der Code erneuert sich etwa alle 20 Sekunden.
 2. **Per Klick mit Kopplungscode**: Gib im Sekretär deine Handynummer mit Ländervorwahl ein, zum Beispiel `4917612345678`. Der Sekretär zeigt dann einen 8-stelligen Code. Gleichzeitig schickt WhatsApp eine Benachrichtigung auf dein Handy. Tippe sie an, oder gehe zu *Verknüpfte Geräte* → *Gerät hinzufügen* → *Stattdessen mit Telefonnummer verknüpfen*, und gib den Code ein.
 
+**Ohne Sekretär, im Terminal:**
+
+```bash
+cd plugins/whatsapp/server
+npm run pair                              # QR-Code im Terminal
+npm run pair -- --phone 4917612345678     # Kopplungscode
+```
+
+Der Sekretär erkennt die Verbindung danach von selbst.
+
+### Schaltflächen im Sekretär freischalten (einmalig)
+
+Für „QR-Code anzeigen“, „Kopplungscode anfordern“ und „Trennen“ braucht das Artefakt die Tools `get_status`, `start_pairing` und `logout`. Diese lokalen Tools kann nur eine **lokale** Sitzung freigeben, zum Beispiel Claude Code auf deinem Rechner oder die Claude-Desktop-App. Eine Cloud-Sitzung kann das nicht. Bitte dort einmal:
+
+> Veröffentliche `artifacts/persoenlicher-sekretaer.html` neu auf https://claude.ai/artifact/BrpjtLk5uSEQF5W5HgZC3V, mit `capabilities.mcp.servers = [{server: "host:whatsapp", tools: ["get_inbox","create_draft","update_draft","discard_draft","send_draft","get_status","start_pairing","logout"]}]` und `sample: {}`.
+
+Bis dahin zeigt der Sekretär den Terminal-Weg an und erkennt eine im Terminal gestartete Kopplung trotzdem.
+
 Bestätigst du nicht rechtzeitig, läuft die Kopplung ab und es passiert nichts. Mit **„Trennen“** im Sekretär (Tool `logout`) meldest du das Gerät wieder ab, und die lokalen Zugangsdaten werden gelöscht. Abmelden kannst du es auch jederzeit am Handy unter *Verknüpfte Geräte*.
 
 ## Installation

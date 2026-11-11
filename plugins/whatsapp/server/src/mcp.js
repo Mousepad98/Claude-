@@ -46,7 +46,7 @@ const saveDrafts = (d) => {
 const publicDraft = (x) => ({ id: x.id, chat: x.chat, text: x.text, reason: x.reason || null, reply_to_id: x.reply_to_id || null, status: x.status, error: x.error || null, created_at: x.created_at, updated_at: x.updated_at });
 
 // ---------- Inbox ----------
-export function buildInbox({ since_hours = 48, include_groups = false, limit = 20, messages_per_chat = 8 }, store, drafts, connection) {
+export function buildInbox({ since_hours = 48, include_groups = false, limit = 20, messages_per_chat = 8 }, store, drafts, connection, pairing = null) {
   const since = Date.now() / 1000 - since_hours * 3600;
   const open = new Map();
   for (const d of drafts.drafts) if (d.status === "pending" || d.status === "failed") open.set(d.chat, d);
@@ -72,7 +72,7 @@ export function buildInbox({ since_hours = 48, include_groups = false, limit = 2
     }));
   return {
     chats,
-    bridge: { connection, store_updated_at: store.updatedAt || null, me: store.me || null },
+    bridge: { connection, store_updated_at: store.updatedAt || null, me: store.me || null, pairing: pairing ? { method: pairing.method, qr: pairing.qr || null, code: pairing.code || null, expired: !!pairing.expired, error: pairing.error || null } : null },
   };
 }
 
@@ -147,7 +147,7 @@ export function createServer() {
   }, async (input) => {
     const st = isRegistered() ? await ensureBridge({ waitMs: 4000 }) : await bridgeStatus();
     const connection = st ? st.connection : "unreachable";
-    const data = buildInbox(input, readJson(STORE_FILE, { chats: {} }), loadDrafts(), isRegistered() || st ? connection : "not_paired");
+    const data = buildInbox(input, readJson(STORE_FILE, { chats: {} }), loadDrafts(), isRegistered() || st ? connection : "not_paired", st?.pairing);
     return ok(data, `${data.chats.length} Chats warten auf Antwort (Verbindung: ${data.bridge.connection}).\n` + JSON.stringify(data));
   });
 

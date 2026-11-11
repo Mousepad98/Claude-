@@ -189,6 +189,7 @@ async function connect(opts = {}) {
           state.pairing.updatedAt = Date.now();
         }
       } else {
+        state.pairing.qr_raw = qr;
         try { state.pairing.qr = await QRCode.toDataURL(qr, { margin: 1, width: 320, errorCorrectionLevel: "M" }); } catch {}
         state.pairing.updatedAt = Date.now();
       }

@@ -9,6 +9,7 @@
   "scripts": {
     "mcp": "node src/mcp.js",
     "bridge": "node src/bridge.js",
+    "pair": "node src/pair.js",
     "test": "node --test test/*.test.js"
   },
   "engines": { "node": ">=20" },
